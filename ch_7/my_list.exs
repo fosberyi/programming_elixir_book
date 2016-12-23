@@ -19,6 +19,9 @@ defmodule MyList do
   def ceasar([], n), do: []
   def ceasar([h|t], n) when h + n > ?z, do: [h+n-26 | ceasar(t, n)]
   def ceasar([h|t], n), do: [h+n | ceasar(t, n)]
+
+  def span(from, to) when from > to, do: []
+  def span(from, to), do: [from | span(from+1, to)]
 end
 
 IO.inspect MyList.sum([1,2,3])
@@ -28,3 +31,5 @@ IO.inspect MyList.mapsum([1, 2, 3], &(& 1 * &1))
 IO.inspect MyList.max([3,5,8,2])
 
 IO.inspect MyList.ceasar('ryvkve', 13)
+
+IO.inspect MyList.span(2,8)
