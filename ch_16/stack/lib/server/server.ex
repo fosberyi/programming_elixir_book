@@ -2,20 +2,20 @@ defmodule Stack.Server do
   use GenServer
 
   def start_link(stack) do
-    {:ok, server} = GenServer.start_link(Stack.Server, stack)
+    {:ok, server} = GenServer.start_link(__MODULE__, stack, name: __MODULE__)
     server
   end
 
-  def pop(server) do
-    GenServer.call(server, :pop)
+  def pop do
+    GenServer.call(__MODULE__, :pop)
   end
 
-  def stack(server) do
-    GenServer.call(server, :stack)
+  def stack do
+    GenServer.call(__MODULE__, :stack)
   end
 
-  def push(server, val) do
-    GenServer.cast(server, {:push, val})
+  def push(val) do
+    GenServer.cast(__MODULE__, {:push, val})
   end
 
   def handle_call(:stack, _from, stack) do
@@ -27,7 +27,7 @@ defmodule Stack.Server do
   end
 
   def handle_cast({:push, val}, stack) do
-    { :noreply, List.insert_at(stack, 0, val) }
+    { :noreply, [val | stack]}
   end
 end
 
